@@ -21,8 +21,8 @@
       flex-direction: column;
 
       &_type {
-        height: 24px;
-        line-height: 24px;
+        height: 28px;
+        line-height: 28px;
         position: relative;
 
         .item-type {
@@ -39,6 +39,7 @@
           position: absolute;
           top: 0px;
           bottom: 0px;
+          transition: .5s;
         }
 
         .goods {
@@ -58,9 +59,6 @@
         display: flex;
 
         &_border {
-          width: 596px;
-          height: 40px;
-          line-height: 40px;
 
           display: flex;
           border: 2px solid #8c222c;
@@ -102,8 +100,10 @@
           height: 35px;
           margin-right: 1px;
 
-          &:hover,.ant-btn:hover,
-          &:focus,.ant-btn:focus {
+          &:hover,
+          .ant-btn:hover,
+          &:focus,
+          .ant-btn:focus {
             color: #fff;
             background: #8c222c;
             border-color: transparent;
@@ -119,6 +119,24 @@
         }
 
 
+      }
+
+      .hotWord {
+        width: 600px;
+        height: 18px;
+        margin: 0px;
+        overflow: hidden;
+
+        >li {
+          display: inline-block;
+          margin-right: 16px;
+          cursor: pointer;
+          color: #7C7C7C;
+          font-size: 12px;
+          &:hover{
+            color: #8c222c;
+          }
+        }
       }
     }
   }

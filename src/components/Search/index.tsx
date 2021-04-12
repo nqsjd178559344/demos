@@ -21,19 +21,18 @@ const areaSelectAfter = (
 
 
 interface LiList {
-  value: string;
+  author: string;
 }
 
 const Search = () => {
   const [chooseType, setChooseType] = useState("goods");
-  const user: LiList = { value: "" };
+  const user: LiList = { author: "" };
   const [liList, setLiList] = useState([user]);
   useEffect(() => {
     axios
       .get("https://6070052c85c3f0001746f3fb.mockapi.io/api/hot-word")
       .then(({ data }) => {
-        const [{ title }] = data;
-        setLiList(title);
+        setLiList(data);
       });
   }, []);
   return (
@@ -101,7 +100,9 @@ const Search = () => {
             {
               liList&& liList.map(i=>{
                 return (
-                  <li></li>
+                  <li key={i.author}>
+                    {i.author}
+                  </li>
                 )
               })
             }
