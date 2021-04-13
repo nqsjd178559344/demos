@@ -3,7 +3,7 @@ import React from "react";
 import Header from "./components/Header";
 import Top from "./components/Top";
 import Search from "./components/Search";
-// import Content from "./views/Content";
+// import Content from "./pages/content";
 import './App.less'
 
 function App() {

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Selector,{Item} from "../../components/Selector";
-import data from "./data";
+import React from "react";
+import Selector,{ Item }  from "../../components/Selector";
+import { data } from "./constant";
 import "./index.less";
 
 
