@@ -4,41 +4,46 @@ import { Divider } from "antd";
 import "./index.less";
 // let userInfo  = require('../../../mock/header')
 
-interface UserInfo {
-  title: string;
-}
+// interface UserInfo {
+//   title: string;
+// }
 
 const Header = () => {
-  const user: UserInfo = { title: "" };
-  const [userInfo, setUserInfo] = useState([user]);
-  useEffect(() => {
-    axios
-      .get("https://6070052c85c3f0001746f3fb.mockapi.io/api/header")
-      .then(({ data }) => {
-        setUserInfo(data);
-      });
-  }, []);
+  // const user: UserInfo = { title: "" };
+  // const [userInfo, setUserInfo] = useState([user]);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://6070052c85c3f0001746f3fb.mockapi.io/api/header")
+  //     .then(({ data }) => {
+  //       setUserInfo(data);
+  //     });
+  // }, []);
 
   return (
-    <header className="wrapper">
-      <div className="wrapper-header">
-        <span className="title">网罗天下图书 &nbsp; 传承中华文明</span>
-        <div className="user_info_wrapper">
-          <dl className="user_info">
-            {userInfo &&
-              userInfo.map((i) => (
-                <dt className="user_info_li" key={i.title}>
-                  {i.title}
-                </dt>
-              ))}
-          </dl>
-          <Divider type="vertical" style={{backgroundColor: '#e2c8ca'}} />
-          <span className="user_info_li">
-            送至 &nbsp;
-            {"上海"}
-          </span>
-        </div>
-      </div>
+    <header className="wrapper-header">
+      <ul className="wrapper-header_ul">
+        <li className="wrapper-header_ul_li active">
+          <span>首页</span>
+        </li>
+        <li className="wrapper-header_ul_li">
+          <span>书店区</span>
+        </li>
+        <li className="wrapper-header_ul_li">
+          <span>书摊区</span>
+        </li>
+        <li className="wrapper-header_ul_li">
+          <span>新书</span>
+        </li>
+        <li className="wrapper-header_ul_li">
+          <span>在线拍卖</span>
+        </li>
+        <li className="wrapper-header_ul_li">
+          <span>艺术品专场</span>
+        </li>
+        <li className="wrapper-header_ul_li">
+          <span>动态 </span>
+        </li>
+      </ul>
     </header>
   );
 };
