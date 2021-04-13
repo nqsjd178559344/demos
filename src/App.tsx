@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./components/Header";
 import Top from "./components/Top";
 import Search from "./components/Search";
-import Content from "./views/Content";
+// import Content from "./views/Content";
 import './App.less'
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       <Top/>
       <Search/>
       <Header/>
-      <Content/>
+      {/* <Content/> */}
       <footer className="wrapper-footer">222</footer>
     </div>
   );
