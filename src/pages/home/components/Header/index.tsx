@@ -20,7 +20,8 @@ const Header = () => {
   // }, []);
 
   return (
-    <header className="wrapper-header">
+    <>
+      <header className="wrapper-header">
       <ul className="wrapper-header_ul">
         <li className="wrapper-header_ul_li active">
           <span>首页</span>
@@ -45,6 +46,8 @@ const Header = () => {
         </li>
       </ul>
     </header>
+    </>
+    
   );
 };
 
