@@ -7,6 +7,13 @@
 单个页面目录结构参考home
 ```
 
-### 运行项目
+### 路由配置
 
-- yarn start / npm run start
+- 新增页面在 pages 中
+- 在 App.tsx 新增路由
+- 当前路由
+
+```
+/ : 主页面
+/count : 计算器例子
+```
