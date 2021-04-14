@@ -1,0 +1,92 @@
+.todoList {
+  .header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    background: rgba(47, 47, 47, 0.98);
+    align-items: center;
+    padding: 0 150px;
+
+    .logo,
+    .input {
+      flex: 1;
+    }
+
+    .logo {
+      // width: 100px;
+      line-height: 50px;
+      color: #DDD;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .title,
+  .todoList,
+  .hasDoList {
+    padding: 0 150px;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    margin: 0 0 5px;
+
+    h3 {
+      margin: 0px;
+    }
+
+    .totalCount {
+      padding: 0 5px;
+      height: 20px;
+      border-radius: 20px;
+      background: #E6E6FA;
+      line-height: 22px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+
+      margin: 0 10px;
+    }
+  }
+
+  .todoList,
+  .hasDoList {
+    li {
+
+      height: 32px;
+      line-height: 32px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border-left: 5px solid #629A9C;
+      box-shadow: 0 1px 2px rgb(0 0 0 / 7%);
+      background-color: #FFF;
+      position: relative;
+
+      .checkBox {
+        position: absolute;
+        left: 7px;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        transition: -50%;
+        transform: translate(0, -50%);
+      }
+
+      .detail {
+        padding: 0 45px;
+      }
+
+      .del {
+
+        position: absolute;
+        right: 7px;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        transition: -50%;
+        transform: translate(0, -50%);
+      }
+    }
+  }
+}
