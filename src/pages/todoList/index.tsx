@@ -7,10 +7,12 @@ import Item from "antd/lib/list/Item";
 const TodoList = () => {
   const [id, setId] = useState(0);
   const [todo, setTodo] = useState("");
-  const initTodoList: any = [];
-  const [todoList, setTodoList] = useState(initTodoList);
-  const initHasDoList: any = [];
-  const [hasDoList, setHasDoList] = useState(initHasDoList);
+  // const initTodoList: any = [];
+  // const [todoList, setTodoList] = useState(initTodoList);
+  const [todoList, setTodoList] = useState<any>([])
+  // const initHasDoList: any = [];
+  // const [hasDoList, setHasDoList] = useState(initHasDoList);
+  const [hasDoList, setHasDoList] = useState<any>([])
   const handlePressEnter = (e: any) => {
     const { value } = e.target;
     setTodo("");
