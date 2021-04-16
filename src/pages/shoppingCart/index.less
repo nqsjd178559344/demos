@@ -1,48 +1,65 @@
 .ul {
-    background-color: yellowgreen;
+  // background-color: yellowgreen;
+  width: 1000px;
+  margin: 0 auto;
 
-    li {
-        border: 1px solid #ddd;
-        background-color: yellow;
-        display: flex;
-        align-items: center;
-        padding: 0 10px;
+  li {
+    border: 1px solid #ddd;
 
-        img {
-            margin: 0 10px;
-        }
+    .shop {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #aeaeae;
+      line-height: 40px;
+      font-size: 12px;
 
-        .right {
-            // padding: 0 10px;
-            width: 100%;
-            box-sizing: border-box;
-
-            h3 {
-                font-weight: bold;
-            }
-
-            p {
-                // ! 多行显示超过这行
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-
-            }
-
-            .bottom {
-                height: auto;
-                line-height: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-
-                .price {
-                    font-size: 20px;
-                    font-weight: bold;
-                }
-            }
-        }
+      .checkBox {
+        width: 40px;
+      }
     }
+  }
+
+  .fixed-bottom {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0px;
+
+    // left: 0px;
+    // right: 0px;
+    // width: 100%;
+
+    width: 1000px;
+    background-color: yellowgreen;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    z-index: 999;
+
+    .settle {
+      // 自动吸底
+      width: 200px;
+      position: absolute;
+      right: 0px;
+    }
+  }
+
+}
+
+.online,
+.offline {
+  text-align: center;
+  width: 70px;
+  height: 20px;
+  line-height: 18px;
+  color: #77a877;
+  background-color: #f4f8f4;
+  // font-size: 12px;
+  border: 1px solid #c9dcc9;
+}
+
+.offline {
+  color: #333 !important;
+  background-color: #f6f6f6 !important;
+  border: 1px solid #ccc;
 }

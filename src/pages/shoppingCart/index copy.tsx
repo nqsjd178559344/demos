@@ -17,15 +17,6 @@ interface Item {
   backgroundColor: string;
 }
 
-interface ShopItem {
-  shopId: string;
-  shopName: string;
-  shopAddress: string;
-  shopOwner: string;
-  shopOwnerIsOnline: boolean;
-  list: Item[];
-}
-
 const ShoppingCart = () => {
   const [hasChooseNum, setHasChooseNum] = useState(0);
   const handleSettle = () => {
@@ -34,33 +25,20 @@ const ShoppingCart = () => {
 
   return (
     <ul className="ul">
-      {/* <div className="selectAll">
-
-      </div> */}
       {data &&
-        data.map((item: ShopItem) => {
+        data.map((i: Item) => {
           return (
-            <li key={item.shopId}>
-              <div className="shop">
-                <div className="checkBox">
-                <Checkbox />
+            <li key={i.id} style={{ backgroundColor: i.backgroundColor }}>
+              <Checkbox />
+              <img src={i.backgroundImage} alt={i.name} />
+              <div className="right">
+                <h3>{i.name}</h3>
+                <span>{i.author}</span>
+                <p dangerouslySetInnerHTML={{ __html: i.introduction }}></p>
+                <div className="bottom">
+                  <span className="price">￥ {i.price}</span>
+                  <InputNumber min={1} max={i.max} defaultValue={1} />
                 </div>
-                <div className="shopName m_r8 bold">{item.shopName}书屋</div>
-                <div className="shopAddress m_r25 gray">{item.shopAddress}</div>
-                <div className="shopOwner m_r8">{item.shopOwner}</div>
-                <div
-                  className={classNames("shopOwnerIsOnline", {
-                    online: item.shopOwnerIsOnline,
-                    offline: !item.shopOwnerIsOnline,
-                  })}
-                >
-                  {item.shopOwnerIsOnline ? "在线交谈" : "离线留言"}
-                </div>
-              </div>
-              <div className="list">
-                {item.list.map((i) => {
-                  return <div key={i.id}>{i.name}</div>;
-                })}
               </div>
             </li>
           );
