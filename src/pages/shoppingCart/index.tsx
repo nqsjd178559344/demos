@@ -18,7 +18,7 @@ interface Item {
 
 const ShoppingCart = () => {
   return (
-    <ul>
+    <ul className='ul'>
       {data &&
         data.map((i: Item) => {
           return (
