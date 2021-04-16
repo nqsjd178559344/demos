@@ -14,7 +14,7 @@ for (let i = 0; i < 10; i++) {
     // 'currency|1': [ // 币种
     //     'CNY', 'EUR', 'USD'
     // ],
-    'max|1-5': 1,
+    'max|3-5': 1,
     backgroundImage: Random.dataImage('80x140'),
     backgroundColor: Random.color(),
   }
