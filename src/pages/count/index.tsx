@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import data,{CalcSign} from "./constant";
+import data from "./constant";
+import {CalcSign} from "../../constant";
 import {calculate} from './utils'
 import "./index.less";
 

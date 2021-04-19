@@ -1,4 +1,4 @@
- import {CalcSign} from './constant'
+ import {CalcSign} from '../../constant'
  
  /**
    * 思路:初始target:当前数组;stack:当前栈
