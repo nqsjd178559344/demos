@@ -9,15 +9,13 @@ for (let i = 0; i < 3; i++) {
     "author": Random.cname(),
     introduction: Random.cparagraph(),
     "price|1-100.1-2": 1,
-    // 'currency|1': [ // 币种
-    //     'CNY', 'EUR', 'USD'
-    // ],
     'max|3-5': 1,
-    backgroundImage: Random.dataImage('80x140'),
+    backgroundImage: Random.dataImage('80x80'),
     backgroundColor: Random.color(),
   }
   dataItem.push(objItem)
 }
+
 
 let data = [];
 for (let i = 0; i < 10; i++) {
@@ -27,7 +25,7 @@ for (let i = 0; i < 10; i++) {
     shopAddress: Random.county(true),
     shopOwner: Random.cname(),
     "shopOwnerIsOnline|1-2": true,
-    list: dataItem,
+    list: Mock.mock(dataItem),
   }
   data.push(obj)
 }
