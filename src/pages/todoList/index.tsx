@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Input, Checkbox } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Input } from "antd";
+import List from "./components/list";
 import "./index.less";
-import Item from "antd/lib/list/Item";
 
 const TodoList = () => {
   const [id, setId] = useState(0);
   const [todo, setTodo] = useState("");
-  const initTodoList: any = [];
-  const [todoList, setTodoList] = useState(initTodoList);
-  const initHasDoList: any = [];
-  const [hasDoList, setHasDoList] = useState(initHasDoList);
+  const [todoList, setTodoList] = useState<any>([]);
+  const [hasDoList, setHasDoList] = useState<any>([]);
   const handlePressEnter = (e: any) => {
     const { value } = e.target;
     setTodo("");
@@ -62,49 +59,18 @@ const TodoList = () => {
           />
         </div>
       </header>
-      <div className="title">
-        <h3>正在进行</h3>
-        <span className="totalCount">{todoList.length}</span>
-      </div>
-      <ul className="todoList">
-        {todoList.map((item: any) => {
-          return (
-            <li key={item.id}>
-              <Checkbox
-                className="checkBox"
-                onChange={() => handleChangeDoing(item)}
-              />
-              <div className="detail">{item.value}</div>
-              <DeleteOutlined
-                className="del"
-                onClick={() => handleDel(item, "todoList")}
-              />
-            </li>
-          );
-        })}
-      </ul>
-      <div className="title">
-        <h3>已经完成</h3>
-        <span className="totalCount">{hasDoList.length}</span>
-      </div>
-      <ul className="hasDoList">
-        {hasDoList.map((item: any) => {
-          return (
-            <li key={item.id}>
-              <Checkbox
-                checked
-                className="checkBox"
-                onChange={() => handleChangeDone(item)}
-              />
-              <div className="detail">{item.value}</div>
-              <DeleteOutlined
-                className="del"
-                onClick={() => handleDel(item, "hasDoList")}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      <List
+        title="正在进行"
+        todoList={todoList}
+        handleChange={handleChangeDoing}
+        handleDel={handleDel}
+      />
+      <List
+        title="已经完成"
+        todoList={hasDoList}
+        handleChange={handleChangeDone}
+        handleDel={handleDel}
+      />
     </div>
   );
 };
