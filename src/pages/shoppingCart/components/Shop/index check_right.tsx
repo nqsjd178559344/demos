@@ -57,20 +57,13 @@ const ShopItem = (props: MyProps) => {
     setSelected,
   } = useSelections(initItemList);
 
+  const [totalShopPrice, setTotalShopPrice] = useState<number>(0);
   const [itemList, setItemList] = useState<Item[]>(item.list);
+  const [lastAllSelected, setLastAllSelected] = useState(false); // 单例模式
 
   useEffect(() => {
     if(propsAllSelected){
       selectAll();
-    }
-    if(propsAllSelected){
-      const { totalShopPrice, number } = calculateTotalShopPrice(itemList,true);
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice,
-        number,
-      });
     }
   }, [propsAllSelected]);
 
@@ -90,34 +83,12 @@ const ShopItem = (props: MyProps) => {
     if(noneSelected && propsIsSelected(item.shopId)){
       propsToggle(item.shopId)
     }
-    if(noneSelected){
-
-    }
   }, [noneSelected]);
 
   const handleChange = () => {
-    if(!allSelected){
-      const { totalShopPrice, number } = calculateTotalShopPrice(itemList,!allSelected);
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice,
-        number,
-      });
-      console.log(itemList,'newItemList',!allSelected,totalShopPrice,'totalShopPrice',number)
-    }else{
-      console.log('反选')
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice:0,
-        number:0,
-      });
-    }
     const newSelected = !allSelected ? initItemList : [];
     setSelected(newSelected);
     propsToggle(item.shopId);
-
   };
 
   const handleChangeData = ({
@@ -148,10 +119,10 @@ const ShopItem = (props: MyProps) => {
     setItemList(newItemList);
   };
 
-  const calculateTotalShopPrice = (newItemList: Item[],bool = false) => {
+  const calculateTotalShopPrice = (newItemList: Item[]) => {
     let tmp = newItemList.reduce(
       (pre: any, cur: Item) => {
-        const hasSelectedId = isSelected(cur.id) || bool;
+        const hasSelectedId = isSelected(cur.id);
         pre.totalShopPrice =
           pre.totalShopPrice + (hasSelectedId ? cur.totalPrice : 0);
         pre.number = pre.number + (hasSelectedId ? cur.number : 0);
@@ -163,6 +134,7 @@ const ShopItem = (props: MyProps) => {
       }
     );
     tmp.totalShopPrice = getDigitRoundNumber(tmp.totalShopPrice, 2);
+    setTotalShopPrice(tmp.totalShopPrice);
     return tmp;
   };
 
@@ -185,7 +157,7 @@ const ShopItem = (props: MyProps) => {
         </div>
         <div
           className={classNames("shopTotalPrice red", {
-            hidden: !i.totalShopPrice,
+            hidden: !totalShopPrice,
           })}
         >
           本店小计：¥{totalShopPrice}

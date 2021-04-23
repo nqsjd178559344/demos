@@ -28,7 +28,6 @@ interface MyProps {
   toggle: (shopId: string) => void;
   selected: any;
   allSelected: boolean;
-  noneSelected: boolean;
   handleChangeData: any;
 }
 
@@ -40,7 +39,6 @@ const ShopItem = (props: MyProps) => {
     toggle: propsToggle,
     selected: propsSelected,
     allSelected: propsAllSelected,
-    noneSelected: propsNoneSelected,
     handleChangeData: propsHandleChangeData,
   } = props;
 
@@ -50,74 +48,46 @@ const ShopItem = (props: MyProps) => {
     isSelected,
     toggle,
     allSelected,
-    noneSelected,
     selected,
-    selectAll,
-    unSelectAll,
+    toggleAll,
     setSelected,
   } = useSelections(initItemList);
 
+  const [totalShopPrice, setTotalShopPrice] = useState<number>(0);
   const [itemList, setItemList] = useState<Item[]>(item.list);
+  const [lastAllSelected, setLastAllSelected] = useState(false); // 单例模式
 
+  /**
+   * @description 父级onChange触发说当前项不可选择,则取消自己及子集所有已选元素; 如父级为子集被动触发，则不变
+   */
   useEffect(() => {
-    if(propsAllSelected){
-      selectAll();
+    const value = propsIsSelected(item.shopId);
+    console.log(value, "传递", value ? initItemList : []);
+    if (value) {
+      setSelected(initItemList);
+    } else {
+      // setSelected([]);
     }
-    if(propsAllSelected){
-      const { totalShopPrice, number } = calculateTotalShopPrice(itemList,true);
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice,
-        number,
-      });
-    }
-  }, [propsAllSelected]);
+    setLastAllSelected(value);
+  }, [propsIsSelected(item.shopId)]);
 
+  /**
+   * @description 当 allSelected 第一次存在时,通知父级 selected 存入此值; 当 allSelected 第一次不存在时,通知父级 selected 删除此值;
+   */
   useEffect(() => {
-    if(propsNoneSelected ){
-      unSelectAll();
-    }
-  }, [propsNoneSelected]);
-
-   useEffect(() => {
-    if((allSelected && !propsIsSelected(item.shopId)) || (!allSelected && propsAllSelected)){
+    if (allSelected !== lastAllSelected) {
       propsToggle(item.shopId)
+      setLastAllSelected(allSelected);
+      console.log(allSelected, "propsSelected", propsSelected);
     }
   }, [allSelected]);
 
-  useEffect(() => {
-    if(noneSelected && propsIsSelected(item.shopId)){
-      propsToggle(item.shopId)
-    }
-    if(noneSelected){
-
-    }
-  }, [noneSelected]);
-
+  /**
+   * @description 通知父级 selected 存入||删除此值
+   */
   const handleChange = () => {
-    if(!allSelected){
-      const { totalShopPrice, number } = calculateTotalShopPrice(itemList,!allSelected);
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice,
-        number,
-      });
-      console.log(itemList,'newItemList',!allSelected,totalShopPrice,'totalShopPrice',number)
-    }else{
-      console.log('反选')
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice:0,
-        number:0,
-      });
-    }
-    const newSelected = !allSelected ? initItemList : [];
-    setSelected(newSelected);
     propsToggle(item.shopId);
-
+    toggleAll();
   };
 
   const handleChangeData = ({
@@ -148,10 +118,10 @@ const ShopItem = (props: MyProps) => {
     setItemList(newItemList);
   };
 
-  const calculateTotalShopPrice = (newItemList: Item[],bool = false) => {
+  const calculateTotalShopPrice = (newItemList: Item[]) => {
     let tmp = newItemList.reduce(
       (pre: any, cur: Item) => {
-        const hasSelectedId = isSelected(cur.id) || bool;
+        const hasSelectedId = isSelected(cur.id);
         pre.totalShopPrice =
           pre.totalShopPrice + (hasSelectedId ? cur.totalPrice : 0);
         pre.number = pre.number + (hasSelectedId ? cur.number : 0);
@@ -163,6 +133,7 @@ const ShopItem = (props: MyProps) => {
       }
     );
     tmp.totalShopPrice = getDigitRoundNumber(tmp.totalShopPrice, 2);
+    setTotalShopPrice(tmp.totalShopPrice);
     return tmp;
   };
 
@@ -185,7 +156,7 @@ const ShopItem = (props: MyProps) => {
         </div>
         <div
           className={classNames("shopTotalPrice red", {
-            hidden: !i.totalShopPrice,
+            hidden: !totalShopPrice,
           })}
         >
           本店小计：¥{totalShopPrice}

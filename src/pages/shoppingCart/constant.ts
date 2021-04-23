@@ -2,7 +2,7 @@ let Mock = require('mockjs');//引入mockjs模块
 let Random = Mock.Random;
 
 let dataItem = [];
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 2; i++) {
   let objItem = {
     id: Random.id(),
     name: Random.ctitle(),
@@ -18,13 +18,14 @@ for (let i = 0; i < 3; i++) {
 
 
 let data = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 2; i++) {
   let obj = {
     shopId: Random.id(),
     shopName: Random.cname(),
     shopAddress: Random.county(true),
     shopOwner: Random.cname(),
     "shopOwnerIsOnline|1-2": true,
+    // list: [],
     list: Mock.mock(dataItem),
   }
   data.push(obj)
