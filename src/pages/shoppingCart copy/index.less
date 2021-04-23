@@ -1,0 +1,68 @@
+.ul {
+  // background-color: yellowgreen;
+  width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.fixed-bottom {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  font-size: 12px;
+  width: 1000px;
+  background-color: rgb(238, 238, 238);
+  height: 50px;
+  margin: 0 auto;
+  line-height: 50px;
+  text-align: center;
+  z-index: 999;
+
+  .total {
+    width: 150px;
+    &_number{
+      color: #8c222c;
+    }
+  }
+
+  .totalCountWrapper {
+    display: flex;
+
+    .totalCount {
+      color: #8c222c;
+      font-weight: 700;
+    }
+  }
+
+  .settle {
+    // 自动吸底
+    width: 100px;
+    position: absolute;
+    right: 0px;
+    background-color: #8c222c;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
+.online,
+.offline {
+  text-align: center;
+  width: 70px;
+  height: 20px;
+  line-height: 18px;
+  color: #77a877;
+  background-color: #f4f8f4;
+  // font-size: 12px;
+  border: 1px solid #c9dcc9;
+}
+
+.offline {
+  color: #333 !important;
+  background-color: #f6f6f6 !important;
+  border: 1px solid #ccc;
+}

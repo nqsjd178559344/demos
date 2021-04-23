@@ -1,0 +1,30 @@
+.li {
+    background-color: #FFF;
+    font-size: 12px;
+
+    .shop {
+        position: relative;
+        padding: 20px 0 0 10px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #aeaeae;
+        line-height: 40px;
+
+        .checkBox {
+            width: 40px;
+        }
+
+        .shopTotalPrice {
+            position: absolute;
+            right: 0;
+        }
+    }
+}
+
+.li:last-of-type {
+
+    &::after {
+        content: '';
+        clear: both;
+    }
+}
