@@ -32,48 +32,115 @@ const ShoppingCart = () => {
     toggle,
     toggleAll,
     allSelected,
-    noneSelected
+    noneSelected,
   } = useSelections(list.map((i: ShopItem) => i.shopId));
 
   const handleSettle = () => {
     console.log("去结算啦");
   };
 
-  useEffect(()=>{
-    console.log(list,'list')
-    calculateTotalPrice();
-  },[list])
-
-  const handleChangeData = ({...obj}:{shopId:string,list:Item}) => {
-    const newList = list.map((i: ShopItem) => {
-      if (i.shopId !== obj.shopId) {
-        return i;
+  const handleChangeData = (obj: {
+    shopId: string;
+    id?: string;
+    number?: number;
+    totalPrice?: number;
+    totalShopPrice?: number;
+    shopSelected: any;
+  }) => {
+    const {
+      shopId,
+      id,
+      number,
+      totalPrice,
+      totalShopPrice,
+      shopSelected,
+    } = obj;
+    const newList = list.map((item: ShopItem) => {
+      if (item.shopId !== shopId) {
+        return item;
       } else {
-        return {
-          ...i,
-          ...obj,
-        };
+        if (id) {
+          const newItemList = item.list.map((i) => {
+            if (i.id !== id) {
+              return i;
+            } else {
+              return { ...i, number, totalPrice };
+            }
+          });
+          let totalShopPrice = newItemList.reduce((pre: number, cur: any) => {
+            if (shopSelected.includes(cur.id)) {
+              pre += cur.totalPrice;
+            }
+            return pre;
+          }, 0);
+          totalShopPrice = getDigitRoundNumber(totalShopPrice, 2);
+          return { ...item, list: newItemList, totalShopPrice };
+        } else {
+          return { ...item, totalShopPrice };
+        }
       }
     });
-    console.log(newList,'newList',obj)
-    setList(newList)
+    calculateTotalPrice(newList);
+    setList(newList);
   };
 
-  const calculateTotalPrice = () => {
-    console.log('总价',list)
-    let newTotal:Total = list.reduce((pre: any, cur: any) => {
-      pre.price = pre.price + (cur.totalShopPrice || 0)
-      pre.number = pre.number + (cur.number || 0)
-      return pre
-    }, {
-      price:0,
-      number:0
-    });
+  const calculateTotalPrice = (newList: ShopItem[]) => {
+    let newTotal: Total = newList.reduce(
+      (pre: any, cur: any) => {
+        pre.price = pre.price + (cur.totalShopPrice || 0);
+        pre.number = pre.number + (cur.number || 0);
+        return pre;
+      },
+      {
+        price: 0,
+        number: 0,
+      }
+    );
     newTotal.price = getDigitRoundNumber(newTotal.price, 2);
     setTotal(newTotal);
   };
 
+  const calculateShopAndTotalPrice = (allSelected=false) => {
+    const newList = list.map((item: ShopItem) => {
+      if(allSelected){
+        return {...item,totalShopNumber:0,totalShopPrice:0};
+      }
+      let tmp: any = item.list.reduce(
+        (pre: any, cur: any) => {
+          pre.totalShopNumber += cur.number;
+          pre.totalShopPrice += cur.totalPrice;
+          return pre;
+        },
+        {
+          totalShopNumber: 0,
+          totalShopPrice: 0,
+        }
+      );
+      tmp.totalShopPrice = getDigitRoundNumber(tmp.totalShopPrice, 2);
+      return {...item,...tmp};
+    });
+    setList(newList);
+    if(allSelected){
+      return {number:0,price:0};
+    }
+    let tmp = newList.reduce(
+      (pre: Total, cur: any) => {
+        pre.number += cur.totalShopNumber;
+        pre.price += cur.totalShopPrice;
+        return pre;
+      },
+      {
+        number: 0,
+        price: 0,
+      }
+    );
+    tmp.price = getDigitRoundNumber(tmp.price, 2);
+    return tmp;
+  };
+
   const handleChange = () => {
+    const newTotal = calculateShopAndTotalPrice(allSelected);
+    setTotal(newTotal);
     toggleAll();
   };
 
@@ -98,12 +165,12 @@ const ShoppingCart = () => {
           })}
       </ul>
       <div className="fixed-bottom">
-        <Checkbox checked={allSelected}
-         onChange={handleChange}
-        >
+        <Checkbox checked={allSelected} onChange={handleChange}>
           全选
         </Checkbox>
-        <span className="total">已选择 <span className="red bold">{total.number}</span> 件商品</span>
+        <span className="total">
+          已选择 <span className="red bold">{total.number}</span> 件商品
+        </span>
         <span className="totalCountWrapper">
           <span className="m_r10"> 合计（不含运费）：</span>
           <span className="totalCount fontSize26">¥{total.price}</span>

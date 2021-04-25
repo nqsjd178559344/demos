@@ -44,34 +44,53 @@ const Item = (props: MyProps) => {
     handleChangeData,
   } = props;
 
-  const [number, setNumber] = useState<number>(i.number);
-  const [totalPrice, setTotalPrice] = useState<number>(i.totalPrice);
-
-  const handleChangeInputNumber = (id: string, type: string) => {
-    let newNumber = type === CalcSign.Add ? number + 1 :type === CalcSign.Subtract ? number - 1 : number;
+  const handleChangeInputNumber = (i: Item, type: string) => {
+    const { number, id } = i;
+    let newNumber =
+      type === CalcSign.Add
+        ? number + 1
+        : type === CalcSign.Subtract
+        ? number - 1
+        : number;
     let newTotalPrice = getDigitRoundNumber(i.price * newNumber, 2);
-    handleChangeData({id, number:newNumber, totalPrice:newTotalPrice });
-    setNumber(newNumber);
-    setTotalPrice(newTotalPrice);
+    handleChangeData({
+      shopId,
+      id,
+      number: newNumber,
+      totalPrice: newTotalPrice,
+      shopSelected: propsSelected,
+    });
   };
 
   const handleDel = (id: string, shopId: String) => {};
 
   /**
    * @description 点击某条时Shop的 selected 存入此值
+   * !bug: 已经全选后，先取消其中某条，再点击全选，则当前未全选，而是全部取消;
    */
   const handleChange = () => {
-    propsToggle(i.id)
-    handleChangeData({id:i.id, number, totalPrice });
+    const { number, totalPrice, id } = i;
+    let shopSelected = [];
+    if (propsSelected.includes(id)) {
+
+      shopSelected = propsSelected.filter((ii: any) => ii !== id);
+    } else {
+      shopSelected = [...propsSelected, id];
+    }
+    handleChangeData({
+      shopId,
+      id,
+      number: number,
+      totalPrice: totalPrice,
+      shopSelected,
+    });
+    propsToggle(i.id);
   };
 
   return (
     <div className="list_item" key={i.id}>
       <div className="checkBox">
-        <Checkbox
-          checked={propsIsSelected(i.id)}
-          onChange={handleChange}
-        />
+        <Checkbox checked={propsIsSelected(i.id)} onChange={handleChange} />
       </div>
       <img style={{ margin: "0 20px" }} src={i.backgroundImage} alt={i.name} />
       <div className="right">
@@ -81,10 +100,10 @@ const Item = (props: MyProps) => {
           <div className="inputNumber_wrapper_item">
             <span
               className={classNames("subtract", {
-                unClick: number === 1,
+                unClick: i.number === 1,
               })}
               onClick={() =>
-                number !== 1 && handleChangeInputNumber(i.id, CalcSign.Subtract)
+                i.number !== 1 && handleChangeInputNumber(i, CalcSign.Subtract)
               }
             >
               -
@@ -95,15 +114,15 @@ const Item = (props: MyProps) => {
               min={1}
               max={i.max}
               defaultValue={1}
-              value={number}
+              value={i.number}
               id={i.id}
             />
             <span
               className={classNames("add", {
-                unClick: number === i.max,
+                unClick: i.number === i.max,
               })}
               onClick={() =>
-                number !== i.max && handleChangeInputNumber(i.id, CalcSign.Add)
+                i.number !== i.max && handleChangeInputNumber(i, CalcSign.Add)
               }
             >
               +
@@ -111,13 +130,13 @@ const Item = (props: MyProps) => {
           </div>
           <span
             className={classNames("kuCun_num", {
-              hidden: number !== i.max,
+              hidden: i.number !== i.max,
             })}
           >
             库存仅剩{i.max}件
           </span>
         </div>
-        <span className="totalPrice">{totalPrice}</span>
+        <span className="totalPrice">{i.totalPrice}</span>
         <span className="moveTo_favorite">移入收藏</span>
         <span className="del" onClick={() => handleDel(i.id, shopId)}>
           删除

@@ -18,6 +18,7 @@ export interface ShopItem {
   shopChecked: boolean;
   shopTotalNumber: number;
   shopTotalPrice: number;
+  totalShopPrice:number;
   list: Item[];
 }
 
@@ -57,20 +58,9 @@ const ShopItem = (props: MyProps) => {
     setSelected,
   } = useSelections(initItemList);
 
-  const [itemList, setItemList] = useState<Item[]>(item.list);
-
   useEffect(() => {
     if(propsAllSelected){
       selectAll();
-    }
-    if(propsAllSelected){
-      const { totalShopPrice, number } = calculateTotalShopPrice(itemList,true);
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice,
-        number,
-      });
     }
   }, [propsAllSelected]);
 
@@ -90,81 +80,33 @@ const ShopItem = (props: MyProps) => {
     if(noneSelected && propsIsSelected(item.shopId)){
       propsToggle(item.shopId)
     }
-    if(noneSelected){
-
-    }
   }, [noneSelected]);
 
   const handleChange = () => {
-    if(!allSelected){
-      const { totalShopPrice, number } = calculateTotalShopPrice(itemList,!allSelected);
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice,
-        number,
-      });
-      console.log(itemList,'newItemList',!allSelected,totalShopPrice,'totalShopPrice',number)
-    }else{
-      console.log('反选')
-      propsHandleChangeData({
-        shopId: item.shopId,
-        list: itemList,
-        totalShopPrice:0,
-        number:0,
-      });
-    }
     const newSelected = !allSelected ? initItemList : [];
+    const totalShopPrice = newSelected.length ? calculateTotalPrice(newSelected) : 0
+    propsHandleChangeData({
+      shopId:item.shopId,
+      totalShopPrice,
+    });
     setSelected(newSelected);
     propsToggle(item.shopId);
 
   };
 
-  const handleChangeData = ({
-    ...obj
-  }: {
-    id: string;
-    number: number;
-    totalPrice: number;
-  }) => {
-    // 子集改变Item
-    const newItemList = item.list.map((i: Item) => {
-      if (i.id !== obj.id) {
-        return i;
-      } else {
-        return {
-          ...i,
-          ...obj,
-        };
-      }
-    });
-    const { totalShopPrice, number } = calculateTotalShopPrice(newItemList);
-    propsHandleChangeData({
-      shopId: item.shopId,
-      list: newItemList,
-      totalShopPrice,
-      number,
-    });
-    setItemList(newItemList);
-  };
-
-  const calculateTotalShopPrice = (newItemList: Item[],bool = false) => {
-    let tmp = newItemList.reduce(
-      (pre: any, cur: Item) => {
-        const hasSelectedId = isSelected(cur.id) || bool;
-        pre.totalShopPrice =
-          pre.totalShopPrice + (hasSelectedId ? cur.totalPrice : 0);
-        pre.number = pre.number + (hasSelectedId ? cur.number : 0);
+  const calculateTotalPrice = (newSelected:string[])=>{
+    const totalShopPrice = item.list.reduce(
+      (pre: number, cur: any) => {
+        if (newSelected.includes(cur.id)) {
+          pre += cur.totalPrice;
+        }
         return pre;
       },
-      {
-        totalShopPrice: 0,
-        number: 0,
-      }
+      0
     );
-    tmp.totalShopPrice = getDigitRoundNumber(tmp.totalShopPrice, 2);
-    return tmp;
-  };
+
+    return getDigitRoundNumber(totalShopPrice, 2);
+  }
 
   return (
     <li className="li" key={item.shopId}>
@@ -185,10 +127,10 @@ const ShopItem = (props: MyProps) => {
         </div>
         <div
           className={classNames("shopTotalPrice red", {
-            hidden: !i.totalShopPrice,
+            hidden: !item.totalShopPrice,
           })}
         >
-          本店小计：¥{totalShopPrice}
+          本店小计：¥{item.totalShopPrice}
         </div>
       </div>
       <div className="list">
@@ -204,7 +146,7 @@ const ShopItem = (props: MyProps) => {
               length={item.list.length}
               selected={selected}
               allSelected={allSelected}
-              handleChangeData={handleChangeData}
+              handleChangeData={propsHandleChangeData}
             />
           );
         })}
