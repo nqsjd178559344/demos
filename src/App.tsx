@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import Count from "./pages/count";
 import TodoList from "./pages/todoList";
 import ShoppingCart from "./pages/shoppingCart";
+import MovieSearch from "./pages/movieSearch";
 import "./App.less";
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
         <Route exact path="/count" component={Count} />
         <Route exact path="/todoList" component={TodoList} />
         <Route exact path="/shoppingCart" component={ShoppingCart} />
-        <Redirect to="/count" />
+        <Route exact path="/movieSearch" component={MovieSearch} />
+        <Redirect to="/movieSearch" />
       </Switch>
     </div>
   );
