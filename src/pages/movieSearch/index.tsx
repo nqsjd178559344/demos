@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useRef } from "react";
 import BScroll from "better-scroll";
 import axios from "axios";
 import "./index.less";
@@ -37,6 +37,7 @@ function reducer(state: State, action: Action) {
 }
 const MovieSearch = () => {
   const [state, dispatch] = useReducer(reducer, initState);
+  const refWrapper = useRef<any>(null);
   useEffect(() => {
     axios("https://www.omdbapi.com/?s=man&apikey=4a3b711b").then(
       ({ data: { Search, Response } }) => {
@@ -54,11 +55,19 @@ const MovieSearch = () => {
     );
   }, []);
 
+  useEffect(() => {
+    const scroll = new BScroll(refWrapper.current, {
+      scrollX: true, //开启横向滚动
+      click: true, // better-scroll 默认会阻止浏览器的原生 click 事件
+      scrollY: false, //关闭竖向滚动
+    });
+  }, [state.list]);
+
   const { list } = state;
 
   return (
-    <div className="movieSearchWrapper">
-      <ul className="movieSearch" style={{ width: `${210 * list.length}px` }}>
+    <div className="movieSearchWrapper" ref={refWrapper}>
+      <ul className="movieSearch" style={{ width: `${340 * list.length}px` }}>
         {list.map((i: IProps) => {
           return <Item key={i.imdbID} {...i} />;
         })}
