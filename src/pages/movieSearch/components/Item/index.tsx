@@ -9,7 +9,7 @@ export interface IProps {
 const Item = (props: IProps) => {
   return (
     <li className="movieSearchItem">
-      <header>{props.Title}</header>
+      <header className='header'>{props.Title}</header>
       {/* <img
         src={
           props.Poster ||
