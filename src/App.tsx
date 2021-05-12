@@ -5,6 +5,7 @@ import Count from "./pages/count";
 import TodoList from "./pages/todoList";
 import ShoppingCart from "./pages/shoppingCart";
 import MovieSearch from "./pages/movieSearch";
+import UseRefDemo from "./pages/useRefDemo";
 import "./App.less";
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
         <Route exact path="/todoList" component={TodoList} />
         <Route exact path="/shoppingCart" component={ShoppingCart} />
         <Route exact path="/movieSearch" component={MovieSearch} />
-        <Redirect to="/movieSearch" />
+        <Route exact path="/useRefDemo" component={UseRefDemo} />
+        <Redirect to="/useRefDemo" />
       </Switch>
     </div>
   );
