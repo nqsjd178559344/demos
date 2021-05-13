@@ -6,6 +6,7 @@ import TodoList from "./pages/todoList";
 import ShoppingCart from "./pages/shoppingCart";
 import MovieSearch from "./pages/movieSearch";
 import UseRefDemo from "./pages/useRefDemo";
+import ReactUseArrayAsDom from "./pages/reactUseArrayAsDom";
 import "./App.less";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/shoppingCart" component={ShoppingCart} />
         <Route exact path="/movieSearch" component={MovieSearch} />
         <Route exact path="/useRefDemo" component={UseRefDemo} />
+        <Route exact path="/reactUseArrayAsDom" component={ReactUseArrayAsDom} />
         <Redirect to="/useRefDemo" />
       </Switch>
     </div>
