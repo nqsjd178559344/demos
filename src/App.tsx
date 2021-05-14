@@ -6,7 +6,7 @@ import TodoList from "./pages/todoList";
 import ShoppingCart from "./pages/shoppingCart";
 import BScrollMovies from "./pages/BScrollMovies";
 import UseRefDemo from "./pages/useRefDemo";
-import ReactUseArrayAsDom from "./pages/reactUseArrayAsDom";
+// import ReactUseArrayAsDom from "./pages/reactUseArrayAsDom";
 import "./App.less";
 
 function App() {
@@ -19,11 +19,11 @@ function App() {
         <Route exact path="/shoppingCart" component={ShoppingCart} />
         <Route exact path="/BScrollMovies" component={BScrollMovies} />
         <Route exact path="/useRefDemo" component={UseRefDemo} />
-        <Route
+        {/* <Route
           exact
           path="/reactUseArrayAsDom"
           component={ReactUseArrayAsDom}
-        />
+        /> */}
         <Route exact path="/propTypesDemo" component={PropTypesDemo} />
         <Route exact path="/defaultPropsDemo" component={DefaultPropsDemo} />
         <Redirect to="/useRefDemo" />
